@@ -1,0 +1,29 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Главная страница{% endblock title %}
+
+{% block main %}
+    <h1>Библиотека</h1>
+
+    <div class="main__block">
+        <div class="books__list">
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+            {% include './includes/book_card.html' %}
+        </div>
+        <div class="filter">
+
+        </div>
+    </div>
+
+
+
+
+{% endblock main %}

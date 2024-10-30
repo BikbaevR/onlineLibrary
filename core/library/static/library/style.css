@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Calibri, serif;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+body{
+    background-color: #ececec;
+}
+
+.main{
+    padding: 0 200px;
+}
+
+.header{
+    width: 100%;
+    height: 70px;
+    background-color: #455e8a;
+    color: white;
+    font-weight: bold;
+    padding: 0 200px;
+    margin-bottom: 20px;
+}
+.header__block{
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.header__logo{
+    font-size: 25px;
+}
+
+.header__link:hover{
+    color: #6183c1;
+}
+
+.button{
+    background-color: #394e71;
+    padding: 10px;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    height: 35px;
+}
+.button:hover{
+    background-color: #536ba3;
+}
+.search{
+    width: 160px;
+    height: 35px;
+    padding: 5px;
+    background-color: #394e71;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+.search:focus{
+    background-color: #536ba3;
+}
+.search:focus::placeholder{
+    color: white;
+}
+
+/* Карточка книг */
+
+.book__card{
+    width: 200px;
+    height: 350px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.book__img{
+    width: 200px;
+    height: 280px;
+    background-color: #8e8e8e;
+}
+.book__card_descriptions{
+    padding: 0 2px;
+    height: 70px;
+}
+.book_name{
+    font-weight: bold;
+}
+
+/* Карточка книг - Конец */
+
+.main__block{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.books__list{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.filter{
+    width: 30%;
+    background-color: red;
+}
