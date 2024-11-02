@@ -1,0 +1,15 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Теги {% endblock title %}
+
+{% block main %}
+<h1>Тег</h1>
+
+<p><strong>Имя тега:</strong> {{ usertag.tag_name }}</p>
+
+<a href="{% url 'usertag_update' usertag.id %}">Изменить</a> |
+<a href="{% url 'usertag_delete' usertag.id %}">Удалить</a>
+<br>
+<a href="{% url 'usertag_list' %}">К списку тегов</a>
+
+{% endblock main %}

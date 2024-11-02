@@ -1,0 +1,40 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Теги {% endblock title %}
+
+{% block main %}
+<h1>Список тегов</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tag in usertags %}
+            <tr>
+                <td>{{ tag.id }}</td>
+                <td>{{ tag.tag_name }}</td>
+                <td><a href="{% url 'usertag_update' tag.id %}">Изменить</a></td>
+                <td>
+                    <form action="{% url 'usertag_delete' tag.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить этот тег?');">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">Нет тегов для отображения</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'usertag_create' %}">Добавить новый тег</a>
+
+{% endblock main %}

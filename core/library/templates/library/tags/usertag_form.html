@@ -1,0 +1,14 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Теги {% endblock title %}
+
+{% block main %}
+<h1>Создать или удалить тег</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+
+{% endblock main %}
