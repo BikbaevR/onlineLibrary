@@ -1,0 +1,15 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Жанры{% endblock title %}
+
+{% block main %}
+<h1>Жанр</h1>
+
+<p><strong>Имя жанра:</strong> {{ genre.tag_name }}</p>
+
+<a href="{% url 'genre_update' genre.id %}">Изменить</a> |
+<a href="{% url 'genre_delete' genre.id %}">Удалить</a>
+<br>
+<a href="{% url 'genre_list' %}">К списку жанров</a>
+
+{% endblock main %}

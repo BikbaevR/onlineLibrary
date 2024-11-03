@@ -1,0 +1,8 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Админ панель{% endblock title %}
+
+{% block main %}
+    <a class="button" href="{% url 'usertag_list'%}">Теги</a>
+    <a class="button" href="{% url 'genre_list'%}">Жанры</a>
+{% endblock main %}
