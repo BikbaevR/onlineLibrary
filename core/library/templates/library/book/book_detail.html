@@ -1,0 +1,20 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Книги{% endblock title %}
+
+{% block main %}
+
+<h1>{{ book.title }}</h1>
+<p>Автор: {{ book.author }}</p>
+<p>Год: {{ book.year }}</p>
+<p>Цена: {{ book.price }}</p>
+<p>Описание: {{ book.description }}</p>
+<p>Рейтинг: {{ book.rating }}</p>
+<p>Страниц: {{ book.pages }}</p>
+<p>Жанры: {{ book.genres.all }}</p>
+<img src="{{ book.image.url }}" alt="{{ book.title }}">
+<a href="{% url 'book_update' book.id %}">Редактировать</a>
+<a href="{% url 'book_delete' book.id %}">Удалить</a>
+<a href="{% url 'book_list' %}">Назад к списку</a>
+
+{% endblock main %}

@@ -86,3 +86,37 @@ class GenreDeleteView(DeleteView):
     template_name = 'library/genre/genre_confirm_delete.html'
     success_url = reverse_lazy('genre_list')
 
+
+#Книги
+
+
+class BookListView(ListView):
+    model = Book
+    template_name = 'library/book/book_list.html'
+    context_object_name = 'books'
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'library/book/book_detail.html'
+    context_object_name = 'book'
+
+
+class BookCreateView(CreateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'library/book/book_form.html'
+    success_url = reverse_lazy('book_list')
+
+
+class BookUpdateView(UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'library/book/book_update.html'
+    success_url = reverse_lazy('book_list')
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    template_name = 'library/book/book_confirm_delete.html'
+    success_url = reverse_lazy('book_list')

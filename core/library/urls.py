@@ -17,4 +17,11 @@ urlpatterns = [
     path('genres/create/', GenreCreateView.as_view(), name='genre_create'),
     path('genres/<int:pk>/update/', GenreUpdateView.as_view(), name='genre_update'),
     path('genres/<int:pk>/delete/', GenreDeleteView.as_view(), name='genre_delete'),
+
+    path('books/', BookListView.as_view(), name='book_list'),
+    path('books/<int:pk>/', BookDetailView.as_view(), name='book_detail'),
+    path('books/create/', BookCreateView.as_view(), name='book_create'),
+    path('books/<int:pk>/update/', BookUpdateView.as_view(), name='book_update'),
+    path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='book_delete'),
+
 ]

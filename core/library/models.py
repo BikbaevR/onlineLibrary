@@ -32,6 +32,7 @@ class Book(models.Model):
     rating = models.IntegerField()
     pages = models.IntegerField()
     genres = models.ManyToManyField(Genre)
+    file = models.FileField(upload_to='books/', null=True)
 
     def __str__(self):
         return self.title

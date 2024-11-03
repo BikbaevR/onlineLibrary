@@ -1,0 +1,13 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Теги{% endblock title %}
+
+{% block main %}
+<h1>Подтвердить удаление</h1>
+<p>Вы уверены что хотите удалить "{{ object.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+</form>
+<a class="button" href="{% url 'book_list' %}">Отмена</a>
+{% endblock main %}
