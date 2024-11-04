@@ -13,8 +13,13 @@
 <p>Страниц: {{ book.pages }}</p>
 <p>Жанры: {{ book.genres.all }}</p>
 <img src="{{ book.image.url }}" alt="{{ book.title }}">
-<a href="{% url 'book_update' book.id %}">Редактировать</a>
-<a href="{% url 'book_delete' book.id %}">Удалить</a>
-<a href="{% url 'book_list' %}">Назад к списку</a>
+
+
+<div class="form__button_block">
+    <a class="button" href="{% url 'book_update' book.id %}">Редактировать</a>
+    <a class="button" href="{% url 'book_delete' book.id %}">Удалить</a>
+    <a class="button" href="{% url 'book_list' %}">Назад к списку</a>
+</div>
+
 
 {% endblock main %}

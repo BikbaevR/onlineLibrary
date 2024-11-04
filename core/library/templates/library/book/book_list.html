@@ -12,6 +12,7 @@
         <tr>
             <th>ID</th>
             <th>Название</th>
+            <th>Автор</th>
             <th>Изменить</th>
             <th>Удалить</th>
         </tr>
@@ -20,9 +21,10 @@
         {% for book in books %}
             <tr>
                 <td>{{ book.id }}</td>
-                <td> <a class="button" href="{% url 'book_detail' book.id %}">{{ book.title }}</a> - {{ book.author }}</td>
-                <td><a class="button" href="{% url 'book_update' book.id %}">Изменить</a></td>
-                <td><a class="button" href="{% url 'book_delete' book.id %}">Удалить</a></td>
+                <td>{{ book.title }} - {{ book.author }}</td>
+                <td><a class="button__table" href="{% url 'book_detail' book.id %}">Открыть</td>
+                <td><a class="button__table" href="{% url 'book_update' book.id %}">Изменить</a></td>
+                <td><a class="button__table" href="{% url 'book_delete' book.id %}">Удалить</a></td>
             </tr>
         {% empty %}
             <tr>

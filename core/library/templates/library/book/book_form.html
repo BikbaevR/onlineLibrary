@@ -9,10 +9,10 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Сохранить</button>
+    <div class="form__button_block">
+        <button type="submit">Сохранить</button>
+        <a class="button" href="{% url 'book_list' %}">Отмена</a>
+    </div>
 </form>
-    
-<a href="{% url 'book_list' %}">Назад к списку</a>
-
 
 {% endblock main %}

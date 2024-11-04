@@ -21,8 +21,8 @@
             <tr>
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.tag_name }}</td>
-                <td><a class="button" href="{% url 'usertag_update' tag.id %}">Изменить</a></td>
-                <td><a class="button" href="{% url 'usertag_delete' tag.id %}">Удалить</a></td>
+                <td><a class="button__table" href="{% url 'usertag_update' tag.id %}">Изменить</a></td>
+                <td><a class="button__table" href="{% url 'usertag_delete' tag.id %}">Удалить</a></td>
             </tr>
         {% empty %}
             <tr>

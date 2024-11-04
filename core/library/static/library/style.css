@@ -15,20 +15,43 @@ h1{
     margin-bottom: 20px;
 }
 
+label{
+    display: none;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+}
+.form__button_block{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 button{
-    background-color: #777777;
-    padding: 10px;
+    background-color: #e9e9e9;
     outline: none;
     border: none;
     color: inherit;
     font-weight: bold;
     height: 35px;
-    width: max-content;
-    margin-bottom: 20px;
+    width:max-content ;
+    padding: 5px;
+    margin-bottom: 10px;
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
 }
 
 button:hover{
-    background-color: #cacaca;
+    background-color: #4264fd;
+    color: white;
 }
 
 .main{
@@ -66,31 +89,41 @@ button:hover{
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
 }
 
 .header__link:hover{
-    color: #6183c1;
-    border-bottom: 1px #6183c1 solid;
+    color: #4264fd;
+    border-bottom: 1px #4264fd solid;
 }
 .search_icon{
     width: 20px;
     aspect-ratio: 1/1;
+    position: absolute;
+    top: 20px;
 }
 
 
 .button{
-    background-color: #777777;
-    padding: 10px;
+    background-color: #e9e9e9;
     outline: none;
     border: none;
     color: inherit;
     font-weight: bold;
     height: 35px;
-    width: max-content;
-    margin-bottom: 20px;
+    width: max-content ;
+    padding: 5px;
+    margin-bottom: 10px;
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
 }
 .button:hover{
-    background-color: #cacaca;
+    background-color: #4264fd;
+    color: white;
 }
 .search{
     width: 160px;
@@ -152,27 +185,58 @@ button:hover{
 table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
 }
 thead th {
     background-color: #f2f2f2;
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 5px;
     text-align: left;
 }
 tbody td {
     border: 1px solid #ddd;
-    padding: 20px 8px;
+    text-align: center;
 }
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+
+
 tbody tr:hover {
     background-color: #f1f1f1;
 }
+.button__table{
+    background-color: #e9e9e9;
+    outline: none;
+    border: none;
+    color: inherit;
+    font-weight: bold;
+    height: 35px;
+    width:max-content ;
+    padding: 5px;
+    margin: 5px;
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
 
+.button__table:hover{
+    background-color: #4264fd;
+    color: white;
+}
 
 /*----------*/
 input{
     width: 300px;
     height: 40px;
+}
+
+/*Админ*/
+.admin__main{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

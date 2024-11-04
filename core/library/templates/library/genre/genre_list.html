@@ -21,8 +21,8 @@
             <tr>
                 <td>{{ genre.id }}</td>
                 <td>{{ genre.name }}</td>
-                <td><a class="button" href="{% url 'genre_update' genre.id %}">Изменить</a></td>
-                <td><a class="button" href="{% url 'genre_delete' genre.id %}">Удалить</a></td>
+                <td><a class="button__table" href="{% url 'genre_update' genre.id %}">Изменить</a></td>
+                <td><a class="button__table" href="{% url 'genre_delete' genre.id %}">Удалить</a></td>
             </tr>
         {% empty %}
             <tr>
