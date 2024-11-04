@@ -28,11 +28,11 @@ class Book(models.Model):
     year = models.IntegerField()
     price = models.IntegerField()
     description = models.TextField()
-    image = models.ImageField(upload_to='books/', blank=False, null=False)
+    image = models.ImageField(upload_to='books/img', blank=False, null=False)
     rating = models.IntegerField()
     pages = models.IntegerField()
     genres = models.ManyToManyField(Genre)
-    file = models.FileField(upload_to='books/', null=True)
+    file = models.FileField(upload_to='books/files', null=True)
 
     def __str__(self):
         return self.title
