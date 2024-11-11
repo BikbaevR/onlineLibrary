@@ -2,42 +2,65 @@
 
 {% block title %}Книги{% endblock title %}
 
+
+
+
+
 {% block main %}
+    <div class="book_detail_class">
 
-<h1>{{ book.title }}</h1>
-<p>Автор: {{ book.author }}</p>
-<p>Год: {{ book.year }}</p>
-<p>Цена: {{ book.price }}</p>
-<p>Описание: {{ book.description }}</p>
-<p>Рейтинг: {{ book.rating }}</p>
-<p>Страниц: {{ book.pages }}</p>
-<p>Жанры:
-    {% for genre in book.genres.all %}
-        {{ genre.name }}{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-</p>
-<img src="{{ book.image.url }}" alt="{{ book.title }}">
+        {% if user.is_staff %}
+            <div class="form__button_block">
+                <a class="button" href="{% url 'book_update' book.id %}">Редактировать</a>
+                <a class="button" href="{% url 'book_delete' book.id %}">Удалить</a>
+                <a class="button" href="{% url 'book_list' %}">Назад к списку</a>
+            </div>
+        {% endif %}
 
-    
-{% if user.is_authenticated %}
-    <form action="{% url 'buy_book' book.id %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Купить книгу</button>
-    </form>
+        <div class="info">
+            <div class="book__img">
+                <img class="img" src="{{ book.image.url }}" alt="{{ book.title }}" />
+            </div>
 
-    <form action="{% url 'add_to_favorites' book.id %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Добавить в избранное</button>
-    </form>
-{% else %}
-    <p>Вы должны быть авторизованы для покупки или добавления в избранное.</p>
-{% endif %}
+            <div class="book_text">
+                <p>{{ book.author }}</p>
+                <h1>{{ book.title }}</h1>
 
-<div class="form__button_block">
-    <a class="button" href="{% url 'book_update' book.id %}">Редактировать</a>
-    <a class="button" href="{% url 'book_delete' book.id %}">Удалить</a>
-    <a class="button" href="{% url 'book_list' %}">Назад к списку</a>
-</div>
+                <p><b>Год выпуска:</b> {{ book.year }}</p>
+                <p><b>Цена:</b> {{ book.price }}</p>
+                <p><b>Описание:</b> {{ book.description }}</p>
+                <p><b>Рейтинг:</b> {{ book.rating }}</p>
+                <p><b>Страниц:</b> {{ book.pages }}</p>
+                <p><b>Жанры:</b>
+                    {% for genre in book.genres.all %}
+                        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
 
+                <div class="books_buttons">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'buy_book' book.id %}" method="post">
+                            {% csrf_token %}
+                          <button type="submit">Купить книгу</button>
+                        </form>
 
+                        {% if not in_favorite %}
+                            <form action="{% url 'add_to_favorites' book.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Добавить в избранное</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'remove_favourite' book.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit">Убрать из избранных</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <p class="warning_block">Вы должны быть авторизованы для покупки или добавления в избранное.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock main %}

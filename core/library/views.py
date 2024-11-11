@@ -17,7 +17,6 @@ class AdminView(ListView):
     context_object_name = 'books'
 
 
-
 class IndexView(ListView):
     model = Book
     template_name = 'library/index.html'
@@ -25,7 +24,6 @@ class IndexView(ListView):
 
 
 # Теги
-
 
 class UserTagListView(ListView):
     model = UserTag
@@ -108,6 +106,11 @@ class BookDetailView(DetailView):
     template_name = 'library/book/book_detail.html'
     context_object_name = 'book'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['in_favorite'] = Favorite.objects.filter(user=self.request.user, book=self.object).exists()
+        return context
+
 
 class BookCreateView(CreateView):
     model = Book
@@ -153,14 +156,39 @@ class BuyBookView(View):
 class AddToFavoritesView(View):
     def post(self, request, pk):
         book = get_object_or_404(Book, id=pk)
+        favourite = Favorite.objects.filter(user=request.user, book=book)
+        if len(favourite) == 0:
+            Favorite.objects.create(user=request.user, book=book)
+            statistic, created = Statistic.objects.get_or_create(user=request.user, defaults={'shopping': 0, 'comments': 0, 'favorites': 0})
+            statistic.favorites += 1
+            statistic.save()
+
+            # messages.success(request, f'Книга "{book.title}" добавлена в избранное!')
+
+        return redirect('book_detail', pk=book.id)
 
 
-        Favorite.objects.create(user=request.user, book=book)
+class Favourites(ListView):
+    model = Favorite
+    template_name = 'library/utils/favorite_list.html'
 
-        statistic, created = Statistic.objects.get_or_create(user=request.user)
-        statistic.favorites += 1
-        statistic.save()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(Favorite.objects.filter(user=self.request.user))
+        favourites = Favorite.objects.filter(user=self.request.user)
 
-        messages.success(request, f'Книга "{book.title}" добавлена в избранное!')
+        for favourite in favourites:
+            context['favorites'] = Book.objects.filter(id=favourite.book.id)
+        return context
 
-        return redirect('book_detail', book_id=book.id)
+
+class RemoveFromFavoritesView(View):
+    def post(self, request, pk):
+        print(pk)
+        favourite = Favorite.objects.get(book__pk=pk, user__pk=request.user.id)
+        if favourite is not None:
+            print('asdasdasd')
+            favourite.delete()
+            print('asdasdasdas')
+            return redirect('book_detail', pk=pk)
+        return redirect('book_detail', pk=pk)

@@ -3,9 +3,18 @@
 
 {% block main %}
 <h2>Вход</h2>
-<form method="post">
+<form class="form" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="form-group">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+
+    <div class="form-group">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+
     <button class="button" type="submit">Войти</button>
 </form>
 {% endblock main %}

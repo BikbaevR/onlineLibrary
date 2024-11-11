@@ -15,9 +15,7 @@ h1{
     margin-bottom: 20px;
 }
 
-label{
-    display: none;
-}
+
 
 form{
     display: flex;
@@ -96,6 +94,15 @@ button:hover{
     color: #4264fd;
     border-bottom: 1px #4264fd solid;
 }
+
+.header__account{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+
+
 .search_icon{
     width: 20px;
     aspect-ratio: 1/1;
@@ -242,7 +249,7 @@ tbody tr:hover {
 input{
     width: 300px;
     height: 40px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 /*Админ*/
@@ -250,4 +257,95 @@ input{
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.form{
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 20px;
+    width: max-content;
+    background-color: #ffffff;
+}
+.main{
+}
+
+.form-control {
+    display: block;
+    /*width: 100%;*/
+    margin-top: 5px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+label{
+    font-weight: bold;
+}
+
+/*!* Скрываем оригинальный input[type="file"] *!*/
+/*.file-input {*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*    width: 100%;*/
+/*    max-width: 250px;*/
+/*    height: 40px;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.file-input input[type="file"] {*/
+/*    position: absolute;*/
+/*    font-size: 100px;*/
+/*    opacity: 0;*/
+/*    right: 0;*/
+/*    top: 0;*/
+/*}*/
+
+/*!* Стилизация кнопки *!*/
+/*.file-input label {*/
+/*    display: inline-block;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    padding: 10px;*/
+/*    background-color: #7c7c7c;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*    cursor: pointer;*/
+/*    border-radius: 5px;*/
+/*}*/
+.info{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    width: 80%;
+}
+.book_detail_class{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.book_text{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.books_buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.warning_block{
+    padding: 10px;
+    background-color: rgb(166, 85, 85);
+}
+.book_price{
+    padding: 5px;
+    background-color: #e6e6e6;
+    width: max-content;
+    margin-top: 5px;
 }

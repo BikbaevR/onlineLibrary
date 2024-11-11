@@ -29,6 +29,7 @@ def email_verified_required(function):
 
     return wrap
 
+
 class RegisterView(TemplateView):
     template_name = 'accounts/register.html'
 
@@ -38,7 +39,9 @@ class RegisterView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = CustomUserCreationForm(request.POST, request.FILES)
+        print(1)
         if form.is_valid():
+            print(2)
             user = form.save()
             verification_url = request.build_absolute_uri(f'/accounts/verify/{user.verification_token}/')
             send_mail(
@@ -48,7 +51,10 @@ class RegisterView(TemplateView):
                 [user.email],
             )
             return redirect('check_email')
+        else:
+            print(form.errors)
         return render(request, self.template_name, {'form': form})
+
 
 class LoginView(TemplateView):
     template_name = 'accounts/login.html'
@@ -63,6 +69,8 @@ class LoginView(TemplateView):
             user = form.get_user()
             login(request, user)
             return redirect('index')
+        else:
+            print(form.errors)
         return render(request, self.template_name, {'form': form})
 
 
