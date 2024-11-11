@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, TemplateView
 
@@ -15,6 +16,13 @@ class AdminView(ListView):
     model = Book
     template_name = 'library/admin.html'
     context_object_name = 'books'
+
+    @method_decorator(email_verified_required)
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    #     context = self.get_context_data(**kwargs)
+    #     return render(request, 'library/admin.html', context)
+
 
 
 class IndexView(ListView):
@@ -107,8 +115,11 @@ class BookDetailView(DetailView):
     context_object_name = 'book'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['in_favorite'] = Favorite.objects.filter(user=self.request.user, book=self.object).exists()
+        try:
+            context = super().get_context_data(**kwargs)
+            context['in_favorite'] = Favorite.objects.filter(user=self.request.user, book=self.object).exists()
+        except:
+            ...
         return context
 
 

@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 
 CustomUser = get_user_model()
 
+
 def verify_email(request, token):
     user = get_object_or_404(CustomUser, verification_token=token)
     user.is_email_verified = True
@@ -21,12 +22,12 @@ def verify_email(request, token):
     user.save()
     return HttpResponse('Ваш email подтвержден. Вы можете войти в систему.', content_type="text/plain")
 
+
 def email_verified_required(function):
     def wrap(request, *args, **kwargs):
         if not request.user.is_email_verified:
             return redirect(reverse('check_email'))
         return function(request, *args, **kwargs)
-
     return wrap
 
 
