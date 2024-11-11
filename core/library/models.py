@@ -13,6 +13,8 @@ class CustomUser(AbstractUser):
     money = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     tag = models.ManyToManyField(UserTag, blank=True)
     user_image = models.ImageField(upload_to='user_images', blank=True)
+    is_email_verified = models.BooleanField(default=False)
+    verification_token = models.CharField(max_length=64, blank=True, null=True)
 
 
 class Genre(models.Model):

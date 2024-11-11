@@ -1,0 +1,20 @@
+{% extends 'library/includes/base.html' %}
+{% block title %}Регистрация{% endblock title %}
+
+{% block main %}
+  <h2>Пополнение баланса</h2>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Пополнить</button>
+  </form>
+{% endblock main %}

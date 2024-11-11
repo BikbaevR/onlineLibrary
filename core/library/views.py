@@ -1,21 +1,28 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, TemplateView
+
+from accounts.views import email_verified_required
 from .models import *
 from .forms import *
 
 from .tools import for_context
 
 
-class AdminView(TemplateView):
+class AdminView(ListView):
+    model = Book
     template_name = 'library/admin.html'
+    context_object_name = 'books'
 
 
-class IndexView(View):
-    def get(self, request):
-        for_context(self)
-        return render(request, 'library/index.html')
+
+class IndexView(ListView):
+    model = Book
+    template_name = 'library/index.html'
+    context_object_name = 'books'
+
 
 # Теги
 
@@ -120,3 +127,40 @@ class BookDeleteView(DeleteView):
     model = Book
     template_name = 'library/book/book_confirm_delete.html'
     success_url = reverse_lazy('book_list')
+
+
+class BuyBookView(View):
+    def post(self, request, pk):
+        book = get_object_or_404(Book, pk=pk)
+
+        if request.user.money >= book.price:
+            request.user.money -= book.price
+            request.user.save()
+
+            UserHistory.objects.create(user=request.user, book=book)
+
+            statistic, created = Statistic.objects.get_or_create(user=request.user)
+            statistic.shopping += 1
+            statistic.save()
+
+            messages.success(request, f'Вы успешно купили книгу "{book.title}"!')
+        else:
+            messages.error(request, 'У вас недостаточно средств для покупки.')
+
+        return redirect('book_detail', pk=book.id)
+
+
+class AddToFavoritesView(View):
+    def post(self, request, pk):
+        book = get_object_or_404(Book, id=pk)
+
+
+        Favorite.objects.create(user=request.user, book=book)
+
+        statistic, created = Statistic.objects.get_or_create(user=request.user)
+        statistic.favorites += 1
+        statistic.save()
+
+        messages.success(request, f'Книга "{book.title}" добавлена в избранное!')
+
+        return redirect('book_detail', book_id=book.id)

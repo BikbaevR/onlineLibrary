@@ -1,8 +1,12 @@
 <div class="book__card">
-    <div class="book__img">Картинка</div>
+    <a href="{% url 'book_detail' book.id %}" >
+        <div class="book__img">
+            <img class="img" src="{{ book.image.url }}" alt="{{ book.title }}" />
+        </div>
+    </a>
     <div class="book__card_descriptions">
-        <div class="book_author">Автор</div>
-        <div class="book_name">Имя</div>
-        <div class="book_price">20000</div>
+        <div class="book_author">{{ book.author }}</div>
+        <div class="book_name">{{ book.title }}</div>
+        <div class="book_price">{{ book.price }}</div>
     </div>
 </div>

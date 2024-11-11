@@ -12,7 +12,16 @@
             </div>
         </div>
         <div class="header__account">
-            <a class="header__link" href="{% url 'admin-panel' %}">Админ панель</a>
+
+            {% if user.is_authenticated %}
+                <a class="header__link" href="{% url 'admin-panel' %}">Админ панель</a>
+                <a class="header__link" href="/accounts/profile">Профиль</a>
+                <a class="header__link" href="/accounts/logout">Выйти</a>
+
+            {% else %}
+                <a class="header__link" href="/accounts/register">Регистрация</a>
+                <a class="header__link" href="/accounts/login">Авторизация</a>
+            {% endif %}
         </div>
     </div>
 </header>

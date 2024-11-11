@@ -7,16 +7,19 @@
 
     <div class="main__block">
         <div class="books__list">
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
-            {% include './includes/book_card.html' %}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+{#            {% include './includes/book_card.html' %}#}
+            {% for book in books %}
+                {% include './includes/book_card.html' with book=book %}
+            {% endfor %}
         </div>
         <div class="filter">
 
