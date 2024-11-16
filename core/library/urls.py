@@ -31,5 +31,6 @@ urlpatterns = [
 
     path('search/', BookSearchView.as_view(), name='search'),
     path('book_read/<int:pk>/', ReadBook.as_view(), name='book_read'),
+    path('book/<int:book_id>/buy/', buy_book, name='buy_book'),
 
 ]

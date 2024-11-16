@@ -80,8 +80,11 @@ class ProfileView(TemplateView):
 
     # @login_required
     def get(self, request, *args, **kwargs):
+
+        user = CustomUser.objects.get(username=request.user.username)
+
         form = CustomUserChangeForm(instance=request.user)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'user': user})
 
     # @login_required
     def post(self, request, *args, **kwargs):

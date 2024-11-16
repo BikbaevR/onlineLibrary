@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -10,7 +11,25 @@ from accounts.views import email_verified_required
 from .models import *
 from .forms import *
 
-from .tools import for_context
+@login_required
+def buy_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    user = request.user
+
+    if UserHistory.objects.filter(user=user, book=book).exists():
+        messages.warning(request, "Вы уже купили эту книгу!")
+        return redirect('book_detail', pk=book_id)
+
+    if user.money >= book.price:
+        user.money -= book.price
+        user.save()
+
+        UserHistory.objects.create(user=user, book=book)
+        messages.success(request, "Книга успешно куплена!")
+    else:
+        messages.error(request, "Недостаточно средств для покупки этой книги!")
+
+    return redirect('book_detail', pk=book_id)
 
 
 class AdminView(ListView):
@@ -116,11 +135,14 @@ class BookDetailView(DetailView):
     context_object_name = 'book'
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         try:
-            context = super().get_context_data(**kwargs)
             context['in_favorite'] = Favorite.objects.filter(user=self.request.user, book=self.object).exists()
         except:
             ...
+
+        context['is_purchased'] = UserHistory.objects.filter(user=self.request.user, book=self.object).exists()
+
         return context
 
 

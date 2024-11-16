@@ -55,10 +55,19 @@
                                 <button type="submit">Убрать из избранных</button>
                             </form>
                         {% endif %}
+
+
+                        {% if is_purchased %}
                             <form action="{% url 'book_read' book.id %}" method="get">
-                                {% csrf_token %}
                                 <button type="submit">Читать</button>
                             </form>
+                        {% else %}
+                            <form method="post" action="{% url 'buy_book' book.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Купить книгу</button>
+                            </form>
+                        {% endif %}
+
                     {% else %}
                         <p class="warning_block">Вы должны быть авторизованы для покупки или добавления в избранное.</p>
                     {% endif %}
