@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -203,3 +204,53 @@ class RemoveFromFavoritesView(View):
             print('asdasdasdas')
             return redirect('book_detail', pk=pk)
         return redirect('book_detail', pk=pk)
+
+
+class BookSearchView(ListView):
+    model = Book
+    template_name = 'library/book/book_search.html'
+    context_object_name = 'books'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Book.objects.all()
+
+        search_query = self.request.GET.get('search', '')
+        genre_filter = self.request.GET.getlist('genre', [])
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        min_year = self.request.GET.get('min_year')
+        max_year = self.request.GET.get('max_year')
+
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) | Q(author__icontains=search_query)
+            )
+
+        if genre_filter:
+            queryset = queryset.filter(genres__id__in=genre_filter).distinct()
+
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        if min_year:
+            queryset = queryset.filter(year__gte=min_year)
+        if max_year:
+            queryset = queryset.filter(year__lte=max_year)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['genres'] = Genre.objects.all()
+        return context
+
+
+class ReadBook(DetailView):
+    model = Book
+    template_name = 'library/book/book_read.html'
+    context_object_name = 'book_read'
+
+

@@ -29,4 +29,7 @@ urlpatterns = [
     path('favourites/', Favourites.as_view(), name='favourites'),
     path('remove-favourite/<int:pk>/', RemoveFromFavoritesView.as_view(), name='remove_favourite'),
 
+    path('search/', BookSearchView.as_view(), name='search'),
+    path('book_read/<int:pk>/', ReadBook.as_view(), name='book_read'),
+
 ]

@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth import get_user_model
+import uuid
 
 CustomUser = get_user_model()
 
@@ -14,9 +15,18 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label='Введите пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Подтвердите пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.verification_token = str(uuid.uuid4())
+        if commit:
+            user.save()
+        return user
+
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'user_image', 'password1', 'password2')
+
+
 
 
 class CustomUserChangeForm(UserChangeForm):

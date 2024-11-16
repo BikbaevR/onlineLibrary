@@ -1,0 +1,17 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Чтение{% endblock title %}
+
+{% block main %}
+
+    <h1>{{ book_read.title }}</h1>
+    <p>Автор: {{ book_read.author }}</p>
+    <p>Год: {{ book_read.year }}</p>
+    <p>Описание: {{ book_read.description }}</p>
+
+
+    <h2>Содержание книги:</h2>
+{#    <embed src="{{ book_read.file.url }}" type="application/pdf" width="100%" height="600px">#}
+    <p><a class="button" href="{{ book_read.file.url }}" target="_blank">Открыть книгу в новом окне</a></p>
+
+{% endblock main %}

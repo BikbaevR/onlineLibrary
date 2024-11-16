@@ -5,15 +5,16 @@
             <a href="{% url 'index' %}">(Не)Яндекс Книги</a>
             <div class="header__main_buttons">
                 <a class="header__link" href="{% url 'index' %}">Главное</a>
-                <a class="header__link" href="">Мои книги</a>
-                <a class="header__link" href="">
+                {% if user.is_authenticated %}
+                    <a class="header__link" href="{% url 'favourites' %}">Мои книги</a>
+                {% endif %}
+                <a class="header__link" href="{% url 'search' %}">
                     <img class="search_icon" src="{% static 'icons/search.png' %}" alt="">
                 </a>
             </div>
         </div>
         <div class="header__account">
             {% if user.is_authenticated %}
-                 <a class="header__link" href="{% url 'favourites' %}">Избранные</a>
                 <a class="header__link" href="{% url 'admin-panel' %}">Админ панель</a>
                 <a class="header__link" href="/accounts/profile">Профиль</a>
                 <a class="header__link" href="/accounts/logout">Выйти</a>
