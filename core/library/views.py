@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, TemplateView
@@ -136,14 +137,31 @@ class BookDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            context['in_favorite'] = Favorite.objects.filter(user=self.request.user, book=self.object).exists()
-        except:
-            ...
+        user = self.request.user
 
-        context['is_purchased'] = UserHistory.objects.filter(user=self.request.user, book=self.object).exists()
+
+        if user.is_authenticated:
+            context['in_favorite'] = Favorite.objects.filter(user=user, book=self.object).exists()
+            context['is_purchased'] = UserHistory.objects.filter(user=user, book=self.object).exists()
+        else:
+            context['in_favorite'] = False
+            context['is_purchased'] = False
+
+        context['comments'] = Comment.objects.filter(book=self.object)
+        context['comment_form'] = CommentForm()
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.book = self.object
+            comment.user = request.user
+            comment.save()
+            return HttpResponseRedirect(reverse('book_detail', args=[self.object.pk]))
+        return self.get(request, *args, **kwargs)
 
 
 class BookCreateView(CreateView):

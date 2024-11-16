@@ -43,6 +43,10 @@ class Book(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.comment[:20]}..."
 
 
 class Favorite(models.Model):

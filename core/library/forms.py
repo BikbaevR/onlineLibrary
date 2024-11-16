@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserTag, Genre, Book
+from .models import UserTag, Genre, Book, Comment
 
 
 class UserTagForm(forms.ModelForm):
@@ -70,3 +70,17 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['title', 'author', 'year', 'price', 'description', 'image', 'rating', 'pages', 'genres', 'file']
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите ваш комментарий...',
+                'rows': 3,
+            }),
+        }
+        labels = {
+            'comment': '',
+        }

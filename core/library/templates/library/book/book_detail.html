@@ -76,4 +76,34 @@
             </div>
         </div>
     </div>
+
+    <br />
+
+    <h2>Комментарии</h2>
+
+    <!-- Список комментариев -->
+    <div class="comments-section">
+        {% for comment in comments %}
+            <div>
+                <p>
+                    <b>{{ comment.user.username }}</b>
+                    <span style="color: #888; font-size: 0.9em;">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                </p>
+                <p style="margin-top: 10px;">{{ comment.comment }}</p>
+            </div>
+        {% empty %}
+            <p>Комментариев пока нет. Будьте первым!</p>
+        {% endfor %}
+    </div>
+
+
+    {% if user.is_authenticated %}
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary">Добавить комментарий</button>
+        </form>
+    {% else %}
+        <p>Чтобы оставить комментарий, <a href="{% url 'login' %}">войдите</a>.</p>
+    {% endif %}
 {% endblock main %}
