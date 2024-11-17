@@ -7,41 +7,16 @@
 <div class="main__block">
     <div class="books__list">
         {% for book in books %}
-{#            {% include './includes/book_card.html' with book=book %}#}
+            {% include './includes/book_card.html' with book=book %}
         {% endfor %}
     </div>
 </div>
 
-    <div>
-        <p>Книга {{ books }}.</p>
-        <p>Общее количество страниц: {{ books.paginator.num_pages }}</p>
-        <p>Номер текущей страницы: {{ books.number }}</p>
-        <p>Есть ли следующая страница: {{ books.has_next }}</p>
-        <p>Есть ли предыдущая страница: {{ books.has_previous }}</p>
-    </div>
-
-
-
-
-    <div class="pagination">
-        <div class="step-links">
-            {% if books.has_previous %}
-                <a href="?page=1">&laquo; первая</a>
-                <a href="?page={{ books.previous_page_number }}">предыдущая</a>
-            {% endif %}
-
-            <div class="current">
-                Страница {{ books.number }} из {{ books.paginator.num_pages }}.
-            </div>
-
-            {% if books.has_next %}
-                <a href="?page={{ books.next_page_number }}">следующая</a>
-                <a href="?page={{ books.paginator.num_pages }}">последняя &raquo;</a>
-            {% endif %}
-        </div>
-    </div>
-
-
+<div class="paginator">
+    {% for p in paginator.page_range %}
+        <a class="button__paginator" href="?page={{ p }}">{{ p }}</a>
+    {% endfor %}
+</div>
 
 
 {% endblock main %}

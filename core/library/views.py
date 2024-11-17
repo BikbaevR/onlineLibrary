@@ -57,7 +57,10 @@ class IndexView(ListView):
     model = Book
     template_name = 'library/index.html'
     context_object_name = 'books'
-    paginate_by = 5
+    paginate_by = 8
+
+    # def get_context_object_name(self, object_list):
+    #     print(object_list)
 
 
 # Теги
@@ -261,7 +264,7 @@ class BookSearchView(ListView):
     model = Book
     template_name = 'library/book/book_search.html'
     context_object_name = 'books'
-    paginate_by = 10
+    paginate_by = 8
 
     def get_queryset(self):
         queryset = Book.objects.all()

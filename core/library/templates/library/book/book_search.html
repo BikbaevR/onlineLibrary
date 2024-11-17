@@ -30,30 +30,10 @@
         {% endfor %}
     </div>
 
-<div>
-    {% if books.has_previous %}
-        <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}
-                  {% if request.GET.genre %}genre={{ request.GET.genre|join:"&genre=" }}&{% endif %}
-                  {% if request.GET.min_price %}min_price={{ request.GET.min_price }}&{% endif %}
-                  {% if request.GET.max_price %}max_price={{ request.GET.max_price }}&{% endif %}
-                  {% if request.GET.min_year %}min_year={{ request.GET.min_year }}&{% endif %}
-                  {% if request.GET.max_year %}max_year={{ request.GET.max_year }}&{% endif %}
-                  page={{ books.previous_page_number }}">
-            Предыдущая
-        </a>
-    {% endif %}
-
-    {% if books.has_next %}
-        <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}
-                  {% if request.GET.genre %}genre={{ request.GET.genre|join:"&genre=" }}&{% endif %}
-                  {% if request.GET.min_price %}min_price={{ request.GET.min_price }}&{% endif %}
-                  {% if request.GET.max_price %}max_price={{ request.GET.max_price }}&{% endif %}
-                  {% if request.GET.min_year %}min_year={{ request.GET.min_year }}&{% endif %}
-                  {% if request.GET.max_year %}max_year={{ request.GET.max_year }}&{% endif %}
-                  page={{ books.next_page_number }}">
-            Следующая
-        </a>
-    {% endif %}
+<div class="paginator">
+    {% for p in paginator.page_range %}
+        <a class="button__paginator" href="?page={{ p }}">{{ p }}</a>
+    {% endfor %}
 </div>
     
 {% endblock main %}
