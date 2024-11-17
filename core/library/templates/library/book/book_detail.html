@@ -17,6 +17,28 @@
             </div>
         {% endif %}
 
+
+
+        {% if messages %}
+            <div id="messages">
+                {% for message in messages %}
+                    <div style="padding: 10px; background-color: #8c4e4e" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <script>
+                setTimeout(() => {
+                    const messagesDiv = document.getElementById('messages');
+                    if (messagesDiv) {
+                        messagesDiv.remove();
+                    }
+                }, 5000);
+            </script>
+        {% endif %}
+
+
+
         <div class="info">
             <div class="book__img">
                 <img class="img" src="{{ book.image.url }}" alt="{{ book.title }}" />

@@ -33,4 +33,6 @@ urlpatterns = [
     path('book_read/<int:pk>/', ReadBook.as_view(), name='book_read'),
     path('book/<int:book_id>/buy/', buy_book, name='buy_book'),
 
+    path('my-books/', UserBooksView.as_view(), name='user_books'),
+
 ]

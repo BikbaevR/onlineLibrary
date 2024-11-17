@@ -1,0 +1,32 @@
+{% extends 'library/includes/base.html' %}
+{% block title %}Профиль{% endblock title %}
+
+{% block main %}
+    <h2>История пополнений</h2>
+
+{% if history %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Дата и время</th>
+                <th>Номер карты</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+                <tr>
+                    <td>{{ record.datetime|date:"d.m.Y H:i" }}</td>
+                    <td>{{ record.card_number }}</td>
+                    <td>{{ record.amount }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Пополнений пока нет.</p>
+{% endif %}
+<br/>
+<a href="{% url 'profile' %}" class="button">Вернуться в профиль</a>
+
+{% endblock main %}

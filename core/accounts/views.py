@@ -1,16 +1,17 @@
 from django.conf import settings
-from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.urls import reverse
+from django.utils.timezone import now
 from django.views import View
-from django.views.generic import TemplateView
-from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import TemplateView, ListView
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, TopUpForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from library.models import TopUpHistory
 
 CustomUser = get_user_model()
 
@@ -20,7 +21,7 @@ def verify_email(request, token):
     user.is_email_verified = True
     user.verification_token = ''
     user.save()
-    return HttpResponse('Ваш email подтвержден. Вы можете войти в систему.', content_type="text/plain")
+    return redirect('index')
 
 
 def email_verified_required(function):
@@ -106,19 +107,37 @@ class LogoutUserView(View):
         return redirect('index')
 
 
-@login_required
-def top_up_balance(request):
-    if request.method == 'POST':
+class TopUpBalanceView(LoginRequiredMixin, View):
+    template_name = 'accounts/top_up_balance.html'
+
+    def get(self, request, *args, **kwargs):
+        form = TopUpForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
         form = TopUpForm(request.POST)
         if form.is_valid():
-            # Получаем сумму пополнения
             amount = form.cleaned_data['amount']
-            # Пополняем баланс пользователя
+            card_number = form.cleaned_data.get('card_number', None)
             request.user.money += amount
             request.user.save()
-            messages.success(request, f'Баланс успешно пополнен на {amount}!')
-            return redirect('profile')
-    else:
-        form = TopUpForm()
 
-    return render(request, 'accounts/top_up_balance.html', {'form': form})
+            TopUpHistory.objects.create(
+                user=request.user,
+                card_number=card_number,
+                datetime=now(),
+                amount=amount,
+            )
+
+            return redirect('profile')
+
+        return render(request, self.template_name, {'form': form})
+
+
+class TopUpHistoryView(LoginRequiredMixin, ListView):
+    model = TopUpHistory
+    template_name = 'accounts/top_up_history.html'
+    context_object_name = 'history'
+
+    def get_queryset(self):
+        return TopUpHistory.objects.filter(user=self.request.user).order_by('-datetime')

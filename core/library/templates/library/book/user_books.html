@@ -1,0 +1,24 @@
+{% extends 'library/includes/base.html' %}
+
+{% block title %}Книги{% endblock title %}
+
+{% block main %}
+<h2>Мои книги</h2>
+
+{% if books %}
+    <div class="main__block">
+        <div class="books__list">
+            {% for book in books %}
+                {% include '../includes/book_card.html' with book=book.book %}
+            {% endfor %}
+        </div>
+        <div class="filter">
+        </div>
+    </div>
+{% else %}
+    <p>Вы ещё не купили ни одной книги.</p>
+{% endif %}
+
+
+
+{% endblock main %}

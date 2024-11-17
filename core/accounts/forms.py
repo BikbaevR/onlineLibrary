@@ -55,4 +55,9 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class TopUpForm(forms.Form):
-    amount = forms.DecimalField(max_digits=10, decimal_places=2, min_value=0, label='Сумма пополнения')
+    card_number = forms.IntegerField(label='Номер карты',widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    card_date = forms.DateField(
+        label='Дата годности карты',
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+    )
+    amount = forms.DecimalField(max_digits=10, decimal_places=2, min_value=0, label='Сумма пополнения', widget=forms.NumberInput(attrs={'class': 'form-control'}))

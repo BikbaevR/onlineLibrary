@@ -5,6 +5,12 @@
 <h2>Профиль пользователя</h2>
     <p>Денег на счету: {{ user.money }} сум</p>
 
+    <br>
+    <div>
+        <a class="button" href="{% url 'top-up' %}">Пополнить счет</a>
+        <a class="button" href="{% url 'top_up_history' %}">История пополнений</a>
+    </div>
+
 
 <form class="form" method="post">
     {% csrf_token %}

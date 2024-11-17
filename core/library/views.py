@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -7,6 +8,8 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, TemplateView
+from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 
 from accounts.views import email_verified_required
 from .models import *
@@ -33,6 +36,11 @@ def buy_book(request, book_id):
     return redirect('book_detail', pk=book_id)
 
 
+def is_superuser_check(user):
+    return user.is_authenticated and user.is_superuser
+
+
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class AdminView(ListView):
     model = Book
     template_name = 'library/admin.html'
@@ -45,21 +53,22 @@ class AdminView(ListView):
     #     return render(request, 'library/admin.html', context)
 
 
-
 class IndexView(ListView):
     model = Book
     template_name = 'library/index.html'
     context_object_name = 'books'
+    paginate_by = 5
 
 
 # Теги
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class UserTagListView(ListView):
     model = UserTag
     template_name = 'library/tags/usertag_list.html'
     context_object_name = 'usertags'
 
 
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class UserTagCreateView(CreateView):
     model = UserTag
     form_class = UserTagForm
@@ -67,12 +76,14 @@ class UserTagCreateView(CreateView):
     success_url = reverse_lazy('usertag_list')
 
 
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class UserTagDetailView(DetailView):
     model = UserTag
     template_name = 'library/tags/usertag_detail.html'
     context_object_name = 'usertag'
 
 
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class UserTagUpdateView(UpdateView):
     model = UserTag
     form_class = UserTagForm
@@ -80,6 +91,7 @@ class UserTagUpdateView(UpdateView):
     success_url = reverse_lazy('usertag_list')
 
 
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class UserTagDeleteView(DeleteView):
     model = UserTag
     template_name = 'library/tags/usertag_confirm_delete.html'
@@ -88,33 +100,33 @@ class UserTagDeleteView(DeleteView):
 
 # Жанры
 
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class GenreListView(ListView):
     model = Genre
     template_name = 'library/genre/genre_list.html'
     context_object_name = 'genres'
 
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class GenreCreateView(CreateView):
     model = Genre
     form_class = GenreForm
     template_name = 'library/genre/genre_form.html'
     success_url = reverse_lazy('genre_list')
 
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class GenreDetailView(DetailView):
     model = Genre
     template_name = 'library/genre/genre_detail.html'
     context_object_name = 'usertag'
 
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class GenreUpdateView(UpdateView):
     model = Genre
     form_class = GenreForm
     template_name = 'library/genre/genre_update.html'
     success_url = reverse_lazy('genre_list')
 
-
+@method_decorator(user_passes_test(is_superuser_check), name='dispatch')
 class GenreDeleteView(DeleteView):
     model = Genre
     template_name = 'library/genre/genre_confirm_delete.html'
@@ -122,7 +134,6 @@ class GenreDeleteView(DeleteView):
 
 
 #Книги
-
 
 class BookListView(ListView):
     model = Book
@@ -198,9 +209,9 @@ class BuyBookView(View):
             statistic.shopping += 1
             statistic.save()
 
-            messages.success(request, f'Вы успешно купили книгу "{book.title}"!')
+            messages.success(request, f'Вы успешно купили книгу "{book.title}" за {book.price}!')
         else:
-            messages.error(request, 'У вас недостаточно средств для покупки.')
+            messages.error(request, 'У вас недостаточно средств для покупки этой книги.')
 
         return redirect('book_detail', pk=book.id)
 
@@ -293,4 +304,12 @@ class ReadBook(DetailView):
     template_name = 'library/book/book_read.html'
     context_object_name = 'book_read'
 
+
+class UserBooksView(LoginRequiredMixin, ListView):
+    model = UserHistory
+    template_name = 'library/book//user_books.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        return UserHistory.objects.filter(user=self.request.user)
 

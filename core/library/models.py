@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+
 class UserTag(models.Model):
     tag_name = models.CharField(max_length=50)
 
@@ -73,3 +74,13 @@ class Statistic(models.Model):
 
     def __str__(self):
         return f'{self.user.name}'
+
+
+class TopUpHistory(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    card_number = models.IntegerField()
+    datetime = models.DateTimeField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.user.username}'
