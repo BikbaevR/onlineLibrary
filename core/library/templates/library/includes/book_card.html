@@ -1,9 +1,12 @@
 <div class="book__card">
-    <a href="{% url 'book_detail' book.id %}" >
-        <div class="book__img">
-            <img class="img" src="{{ book.image.url }}" alt="{{ book.title }}" />
-        </div>
-    </a>
+    <div>
+        <a href="{% url 'book_detail' book.id %}" >
+            <div class="book__img">
+                <img class="img" src="{{ book.image.url }}" alt="{{ book.title }}" />
+            </div>
+        </a>
+    </div>
+
     <div class="book__card_descriptions">
         <div class="book_author">{{ book.author }}</div>
         <div class="book_name">{{ book.title }}</div>
